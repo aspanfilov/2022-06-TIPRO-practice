@@ -7,14 +7,16 @@ public class Stack<T> {
     private T[] stack;
     private int position;
 
+    private final static int GROWTH = 10;
+
     public Stack() {
-        stack = (T[]) new Object[3];
+        stack = (T[]) new Object[GROWTH];
         position = 0;
     }
 
     public T push(T value) {
         if (position == stack.length) {
-            stack = Arrays.copyOf(stack, (int) (stack.length * 1.5));
+            stack = Arrays.copyOf(stack,  stack.length + GROWTH);
         }
         stack[position] = value;
         position++;
@@ -28,6 +30,9 @@ public class Stack<T> {
         position--;
         T value = stack[position];
         stack[position] = null;
+        if ((stack.length - position) >= GROWTH) {
+            stack = Arrays.copyOf(stack, stack.length - GROWTH);
+        }
         return value;
     }
 
@@ -45,5 +50,6 @@ public class Stack<T> {
         sb.append("]");
 
         return sb.toString();
+
     }
 }

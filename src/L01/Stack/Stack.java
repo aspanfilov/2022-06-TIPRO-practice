@@ -15,9 +15,7 @@ public class Stack<T> {
     }
 
     public T push(T value) {
-        if (position == stack.length) {
-            stack = Arrays.copyOf(stack,  stack.length + GROWTH);
-        }
+        growAsNeeded();
         stack[position] = value;
         position++;
         return value;
@@ -30,10 +28,20 @@ public class Stack<T> {
         position--;
         T value = stack[position];
         stack[position] = null;
+        reduceAsNeeded();
+        return value;
+    }
+
+    private void growAsNeeded() {
+        if (position == stack.length) {
+            stack = Arrays.copyOf(stack,  stack.length + GROWTH);
+        }
+    }
+
+    private void reduceAsNeeded() {
         if ((stack.length - position) >= GROWTH) {
             stack = Arrays.copyOf(stack, stack.length - GROWTH);
         }
-        return value;
     }
 
     @Override

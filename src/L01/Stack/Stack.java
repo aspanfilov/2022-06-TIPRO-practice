@@ -40,7 +40,7 @@ public class Stack<T> {
 
     private void reduceAsNeeded() {
         if ((stack.length - position) >= GROWTH) {
-            stack = Arrays.copyOf(stack, stack.length - GROWTH);
+            stack = Arrays.copyOf(stack, (stack.length >= GROWTH) ? stack.length - GROWTH : 0);
         }
     }
 

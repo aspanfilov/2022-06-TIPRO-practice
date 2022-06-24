@@ -12,11 +12,11 @@ public class ManWay implements CashSelectionWay {
     @Override
     public Cash selectCash(List<Cash> cashes) {
 
-        double minServiceTime = cashes.get(0).getServiceTime();
+        float minServiceTime = cashes.get(0).getServiceTime();
         int minServiceTimeIndex = 0;
 
         for (int index = 1; index < cashes.size(); index++) {
-            double serviceTime = cashes.get(index).getServiceTime();
+            float serviceTime = cashes.get(index).getServiceTime();
             if (serviceTime < minServiceTime) {
                 minServiceTime = serviceTime;
                 minServiceTimeIndex = index;

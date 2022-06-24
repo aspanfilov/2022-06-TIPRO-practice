@@ -24,11 +24,11 @@ public class CashGenerator {
 
     private Cash getCash(int maxCashSpeed, int maxDefaultQueueSize) {
         int cashSpeed = getRandom(maxCashSpeed);
-        Queue<Customer> queue = getCashDefaultQueue(maxDefaultQueueSize);
+        Queue<Customer> queue = getDefaultQueue(maxDefaultQueueSize);
         return new Cash(cashSpeed, queue);
     }
 
-    private Queue<Customer> getCashDefaultQueue(int maxDefaultQueueSize) {
+    private Queue<Customer> getDefaultQueue(int maxDefaultQueueSize) {
         Queue<Customer> defaultQueue = new LinkedList<>();
         if (maxDefaultQueueSize > 0) {
             int defaultQueueSize = getRandom(maxDefaultQueueSize);

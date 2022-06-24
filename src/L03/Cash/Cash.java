@@ -31,9 +31,9 @@ public class Cash {
         return this.queue.size();
     }
 
-    public double getServiceTime() {
+    public float getServiceTime() {
         int queuePurchaseCount = this.queue.stream().mapToInt(Customer::getPurchaseCount).sum();
-        return (double) queuePurchaseCount / (double) this.speed;
+        return (float) queuePurchaseCount / (float) this.speed;
     }
 
     private int serveCustomer(Customer customer, int cashResource) {

@@ -44,7 +44,7 @@ public class Customer {
     }
 
     public String getInfo() {
-        return (this.isJustCameIn ? "!" : "") +
+        return (this.isJustCameIn ? "+ " : "") +
                 this.cashSelectionWay.getSelectionName() +
                 "(" + this.purchaseCount + ")";
     }

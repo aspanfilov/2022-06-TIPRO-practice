@@ -16,7 +16,8 @@ public class Cash {
         int cashResource = this.speed;
         while (cashResource > 0 && !this.queue.isEmpty()) {
             Customer nextCustomer = this.queue.element();
-            cashResource = serveCustomer(nextCustomer, cashResource);
+            cashResource =
+                    serveCustomerAndGetCashResource(nextCustomer, cashResource);
             if (nextCustomer.getPurchaseCount() == 0) {
                 this.queue.remove();
             }
@@ -36,16 +37,14 @@ public class Cash {
         return (float) queuePurchaseCount / (float) this.speed;
     }
 
-    private int serveCustomer(Customer customer, int cashResource) {
-        int newCashResource;
-        if (cashResource > customer.getPurchaseCount()) {
-            newCashResource = cashResource - customer.getPurchaseCount();
-            customer.setPurchaseCount(0);
-        } else {
-            newCashResource = 0;
+    private int serveCustomerAndGetCashResource(Customer customer, int cashResource) {
+        if (cashResource <= customer.getPurchaseCount()) {
             int newPurchaseCount = customer.getPurchaseCount() - cashResource;
             customer.setPurchaseCount(newPurchaseCount);
+            return 0;
         }
+        int newCashResource = cashResource - customer.getPurchaseCount();
+        customer.setPurchaseCount(0);
         return newCashResource;
     }
 

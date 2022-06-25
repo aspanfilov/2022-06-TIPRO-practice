@@ -14,6 +14,9 @@ public class Main {
         Animal animal2 = new Animal("Wolf");
         Animal animal3 = new Animal("Bear", LocalDate.now());
 
+        System.out.println();
+        Dog dog = new Dog("Bob");
+
     }
 
 }

@@ -21,4 +21,8 @@ public class Animal {
         System.out.println("Конструктор Animal(String name, LocalDate birthDate)");
     }
 
+    public String move() {
+        return "Animal is moving";
+    }
+
 }

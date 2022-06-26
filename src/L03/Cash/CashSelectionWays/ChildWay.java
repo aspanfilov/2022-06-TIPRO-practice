@@ -20,8 +20,8 @@ public class ChildWay implements CashSelectionWay {
     }
 
     @Override
-    public String getSelectionName() {
-        return "C";
+    public String getRepresentation() {
+        return "\uD83D\uDC76";
     }
 
 }

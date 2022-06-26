@@ -27,7 +27,7 @@ public class ManWay implements CashSelectionWay {
     }
 
     @Override
-    public String getSelectionName() {
-        return "M";
+    public String getRepresentation() {
+        return "\uD83D\uDC68";
     }
 }

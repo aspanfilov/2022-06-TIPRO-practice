@@ -27,7 +27,7 @@ public class WomanWay implements CashSelectionWay {
     }
 
     @Override
-    public String getSelectionName() {
-        return "W";
+    public String getRepresentation() {
+        return "\uD83D\uDC67";
     }
 }

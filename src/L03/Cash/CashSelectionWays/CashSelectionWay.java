@@ -8,6 +8,6 @@ public interface CashSelectionWay {
 
     Cash selectCash(List<Cash> cashes);
 
-    String getSelectionName();
+    String getRepresentation();
 
 }

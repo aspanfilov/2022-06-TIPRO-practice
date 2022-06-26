@@ -34,6 +34,18 @@ public class Test {
         System.out.println("s1.compareToIgnoreCase(s): " + s1.compareToIgnoreCase(s));
         System.out.println("s1.startsWith(\"Hello\"): " + s1.startsWith("Any"));
         System.out.println("s1.endsWith(\"string\"): " + s1.endsWith("string"));
+        System.out.println();
+
+        System.out.println("s: " + s);
+        System.out.println("s.indexOf('l'): " + s.indexOf('l'));
+        System.out.println("s.indexOf('l', 4): " + s.indexOf('l', 4));
+        System.out.println("s.indexOf('z'): " + s.indexOf('z'));
+        System.out.println("s.indexOf(\"world\"): " + s.indexOf("world"));
+        System.out.println("s.lastIndexOf('l'): " + s.lastIndexOf('l'));
+
+        System.out.println();
+        System.out.println("s.substring(3, 7): " + s.substring(3, 7)); //3 4 5 6
+        System.out.println("s.substring(3): " + s.substring(3));
 
 
     }

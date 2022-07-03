@@ -1,8 +1,8 @@
-package L03.Cash;
+package L03.Task01_Cash;
 
-import L03.Cash.CashSelectionWays.ChildWay;
-import L03.Cash.CashSelectionWays.ManWay;
-import L03.Cash.CashSelectionWays.WomanWay;
+import L03.Task01_Cash.CashSelectionWays.ChildWay;
+import L03.Task01_Cash.CashSelectionWays.ManWay;
+import L03.Task01_Cash.CashSelectionWays.WomanWay;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ public class Main {
 
     private static final int MAX_CUSTOMER_PURCHASE_COUNT = 5;
     private static final int STORE_CUSTOMER_COUNT = 20;
-    private static final int STORE_STEP_COUNT = 30;
+    private static final int STORE_STEP_COUNT = 20;
 
     private static final int CASH_COUNT = 4;
     private static final int MAX_CASH_SPEED = 3;
-    private static final int MAX_CASH_DEFAULT_QUEUE_SIZE = 5;
+    private static final int MAX_CASH_DEFAULT_QUEUE_SIZE = 6;
 
     public static void main(String[] args) {
 

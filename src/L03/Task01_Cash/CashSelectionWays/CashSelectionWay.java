@@ -1,6 +1,6 @@
-package L03.Cash.CashSelectionWays;
+package L03.Task01_Cash.CashSelectionWays;
 
-import L03.Cash.Cash;
+import L03.Task01_Cash.Cash;
 
 import java.util.List;
 

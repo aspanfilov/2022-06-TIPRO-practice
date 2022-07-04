@@ -2,7 +2,7 @@ package L04.Task_FileCopier;
 
 import java.io.*;
 
-public class ControlableCopierImpl implements ControlableCopier{
+public class ControlableCopierImpl implements Copier, Progressable, Cancelable{
     private final static String COPY_MARK = "_copy";
 
     private volatile int progress;

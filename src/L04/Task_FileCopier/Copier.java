@@ -2,10 +2,8 @@ package L04.Task_FileCopier;
 
 import java.io.IOException;
 
-public interface ControlableCopier {
+public interface Copier {
 
     boolean copy(String filePath, String destinationFolderPath) throws IOException;
-    int getProgress();
-    void cancel();
 
 }

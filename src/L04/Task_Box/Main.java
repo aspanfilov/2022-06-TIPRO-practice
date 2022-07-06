@@ -30,15 +30,7 @@ class ProducerThread extends Thread {
     @Override
     public void run() {
         for (int i = 0; i < this.stepCount; i++) {
-            try {
-                while (!this.producer.getBox().isFilled()) {
-                    this.producer.fillBox();
-                    this.producer.getBox().notify();
-                }
-                this.producer.getBox().wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            this.producer.fillBox();
         }
     }
 }
@@ -55,15 +47,7 @@ class ConsumerThread extends Thread {
     @Override
     public void run() {
         for (int i = 0; i < this.stepCount; i++) {
-            try {
-                while (this.consumer.getBox().isFilled()) {
-                    this.consumer.clearBox();
-                    this.consumer.getBox().notify();
-                }
-                this.consumer.getBox().wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            this.consumer.clearBox();
         }
     }
 

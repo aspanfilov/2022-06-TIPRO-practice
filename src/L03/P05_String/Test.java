@@ -47,6 +47,19 @@ public class Test {
         System.out.println("s.substring(3, 7): " + s.substring(3, 7)); //3 4 5 6
         System.out.println("s.substring(3): " + s.substring(3));
 
+        //StringBuilder & StringBuffer.
+        //StringBuilder: Более быстрый чем StringBuffer, но не потокобезопасный
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Hello");
+        stringBuilder.append(" world!");
+        System.out.println(stringBuilder.toString());
+
+        //Потокобезопасный в отличии от StringBuilder, но более медленный
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("Hello");
+        stringBuffer.append(" world!");
+        System.out.println(stringBuffer.toString());
+
 
     }
 }

@@ -5,8 +5,8 @@ import java.io.*;
 public class ControlableCopierImpl implements Copier, Progressable, Cancelable{
     private final static String COPY_MARK = "_copy";
 
-    private volatile int progress;
-    private volatile boolean cancelFlag;
+    private int progress;
+    private boolean cancelFlag;
 
     @Override
     public int getProgress() {

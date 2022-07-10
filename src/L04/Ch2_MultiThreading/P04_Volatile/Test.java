@@ -1,7 +1,5 @@
 package L04.Ch2_MultiThreading.P04_Volatile;
 
-import javax.swing.*;
-
 public class Test extends Thread{
 
     //Переменная будет храниться только в основной памяти (не будет кэшироваться для потоков)
@@ -13,7 +11,6 @@ public class Test extends Thread{
     public Test(Control control) {
         this.control = control;
     }
-
 
     public void run() {
         long counter = 0;
@@ -34,5 +31,17 @@ public class Test extends Thread{
         testThread.join();
         System.out.println("End of program");
 
+    }
+}
+
+class Control {
+    private boolean b = true;
+
+    public void setB(boolean b) {
+        this.b = b;
+    }
+
+    public boolean getB() {
+        return this.b;
     }
 }

@@ -1,27 +1,31 @@
-package L04.Task_FileCopier;
+package L04.Ch2_MultiThreading.P04_Volatile.VolatileTest2;
 
 import java.io.*;
 
-public class ControlableCopierImpl implements Copier, Progressable, Cancelable{
+public class CopierImpl implements Copier, Cancelable {
     private final static String COPY_MARK = "_copy";
 
-    private int progress;
+//    private volatile boolean cancelFlag;
     private boolean cancelFlag;
-
-    @Override
-    public int getProgress() {
-        return this.progress;
-    }
 
     @Override
     public void cancel() {
         this.cancelFlag = true;
     }
 
+//    @Override
+//    public boolean copy(String filePath, String destinationFolderPath) throws IOException {
+//        int result = 0;
+//        while (!this.cancelFlag) {
+//            result++;
+//        }
+//        System.out.println("result = " + result);
+//        return true;
+//    }
+
     @Override
     public boolean copy(String filePath, String destinationFolderPath) throws IOException {
         cancelFlag = false;
-        progress = 0;
 
         File originalFile = new File(filePath);
         File destinationFolder = getDestinationFolder(destinationFolderPath);
@@ -32,17 +36,19 @@ public class ControlableCopierImpl implements Copier, Progressable, Cancelable{
         try(var inputStream = new BufferedInputStream(new FileInputStream(originalFile));
             var outputStream = new BufferedOutputStream(new FileOutputStream(newFile))) {
 
-            long totalSize = originalFile.length();
-            long onePercentStepCount = totalSize / 100;
-            long stepCounter = 0;
-
             int chunk;
-            while ((chunk = inputStream.read()) != -1 && !this.cancelFlag) {
-                outputStream.write(chunk);
-                stepCounter++;
-                setProgress(stepCounter, onePercentStepCount);
+            while (!this.cancelFlag) {
+//                chunk = inputStream.read();
+//                outputStream.write(4);
             }
         }
+
+//        int result = 0;
+//        while (!this.cancelFlag) {
+//            result++;
+//        }
+//        System.out.println("result = " + result);
+
         if (this.cancelFlag) {
             deleteFile(newFile);
             return false;
@@ -50,11 +56,31 @@ public class ControlableCopierImpl implements Copier, Progressable, Cancelable{
         return true;
     }
 
-    private void setProgress(long stepCounter, long onePercentStepCount) {
-        if (stepCounter % onePercentStepCount == 0) {
-            this.progress = (int) (stepCounter / onePercentStepCount);
-        }
-    }
+
+//    @Override
+//    public boolean copy(String filePath, String destinationFolderPath) throws IOException {
+//        cancelFlag = false;
+//
+//        File originalFile = new File(filePath);
+//        File destinationFolder = getDestinationFolder(destinationFolderPath);
+//        File newFile = new File(getNewFilePath(originalFile, destinationFolder));
+//
+//        createNewFile(newFile);
+//
+//        try(var inputStream = new BufferedInputStream(new FileInputStream(originalFile));
+//            var outputStream = new BufferedOutputStream(new FileOutputStream(newFile))) {
+//
+//            int chunk;
+//            while ((chunk = inputStream.read()) != -1 && !this.cancelFlag) {
+//                outputStream.write(chunk);
+//            }
+//        }
+//        if (this.cancelFlag) {
+//            deleteFile(newFile);
+//            return false;
+//        }
+//        return true;
+//    }
 
     private File getDestinationFolder(String destinationFolderAddress) throws IOException {
 
@@ -69,7 +95,8 @@ public class ControlableCopierImpl implements Copier, Progressable, Cancelable{
 
     private String getNewFilePath(File originalFile, File destinationFolder) {
         String originalFilePath = originalFile.getAbsolutePath();
-        String newFileName = originalFilePath.substring(originalFilePath.lastIndexOf(File.separatorChar));
+        String newFileName =
+                originalFilePath.substring(originalFilePath.lastIndexOf(File.separatorChar));
 
         int pointIndex = newFileName.indexOf(".");
         if (pointIndex == -1) {
@@ -97,4 +124,7 @@ public class ControlableCopierImpl implements Copier, Progressable, Cancelable{
             throw new IOException("Failed to delete file: " + file.getAbsolutePath());
         }
     }
+
+
+
 }

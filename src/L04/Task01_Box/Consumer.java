@@ -1,4 +1,4 @@
-package L04.Task_Box;
+package L04.Task01_Box;
 
 public class Consumer {
     private final Box box;

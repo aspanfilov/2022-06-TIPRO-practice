@@ -15,7 +15,7 @@ public class Main {
     private static final int CASH_COUNT = 4;
     private static final int MAX_CASH_SPEED = 3;
     private static final int MAX_CASH_DEFAULT_QUEUE_SIZE = 4;
-    private static final int CASH_QUEUE_LIMIT = 10;
+    private static final int CASH_QUEUE_LIMIT = 5;
 
 
     public static void main(String[] args) {
@@ -29,7 +29,11 @@ public class Main {
         var customerGenerator = new CustomerGenerator(cashSelectionWays, MAX_CUSTOMER_PURCHASE_COUNT);
         var cashGenerator = new CashGenerator(customerGenerator);
 
-        var cashes = cashGenerator.getCashes(CASH_COUNT, MAX_CASH_SPEED, CASH_QUEUE_LIMIT, MAX_CASH_DEFAULT_QUEUE_SIZE);
+        var cashes = cashGenerator.getCashes(
+                CASH_COUNT,
+                MAX_CASH_SPEED,
+                CASH_QUEUE_LIMIT,
+                MAX_CASH_DEFAULT_QUEUE_SIZE);
         var store = new StoreEmulator(cashes, customerGenerator, STORE_CUSTOMER_COUNT, STORE_STEP_COUNT);
 
         store.start();

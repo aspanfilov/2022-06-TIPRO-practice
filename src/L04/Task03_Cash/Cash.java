@@ -1,18 +1,20 @@
 package L04.Task03_Cash;
 
-import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 
 public class Cash {
 
+    private final int cashNumber;
     private final int speed;
-    private final Queue<Customer> queue;
+    private final BlockingQueue<Customer> queue;
 
-    public Cash(int speed, Queue<Customer> queue) {
+    public Cash(int cashNumber, int speed, BlockingQueue<Customer> queue) {
+        this.cashNumber = cashNumber;
         this.speed = speed;
         this.queue = queue;
     }
 
-    public void serveQueue() {
+    public void serveQueue() throws InterruptedException {
         int cashResource = this.speed;
 
         while (cashResource > 0 && !this.queue.isEmpty()) {
@@ -20,13 +22,13 @@ public class Cash {
             cashResource =
                     serveCustomerAndGetCashResource(nextCustomer, cashResource);
             if (nextCustomer.getPurchaseCount() == 0) {
-                this.queue.remove();
+                this.queue.take();
             }
         }
     }
 
-    public void addToQueue(Customer customer) {
-        this.queue.add(customer);
+    public void addToQueue(Customer customer) throws InterruptedException {
+        this.queue.put(customer);
     }
 
     public int getQueueSize() {
@@ -36,6 +38,10 @@ public class Cash {
     public float getServiceTime() {
         int queuePurchaseCount = this.queue.stream().mapToInt(Customer::getPurchaseCount).sum();
         return (float) queuePurchaseCount / (float) this.speed;
+    }
+
+    public int getCashNumber() {
+        return cashNumber;
     }
 
     private int serveCustomerAndGetCashResource(Customer customer, int cashResource) {
@@ -51,8 +57,9 @@ public class Cash {
 
     public String getInfo() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%s Cash (spd=%d size=%d time=%.1f): ",
-                Thread.currentThread().getName(), this.speed, this.getQueueSize(), this.getServiceTime()));
+        sb.append(String.format("%s Cash%d (spd=%d size=%d time=%.1f): ",
+                Thread.currentThread().getName(),
+                this.cashNumber, this.speed, this.getQueueSize(), this.getServiceTime()));
         this.queue.forEach(customer ->
                 sb.append(customer.getInfo()).append(" "));
         return sb.toString();

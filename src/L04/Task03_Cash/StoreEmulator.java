@@ -1,6 +1,7 @@
 package L04.Task03_Cash;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,7 +31,8 @@ public class StoreEmulator {
         ExecutorService executorService = Executors.newFixedThreadPool(this.cashes.size() + 1);
 
         try {
-            executorService.execute(new NewCustomerThread(LONG_OPERATION_TIME));
+            executorService.execute(new NewCustomerThread(
+                    LONG_OPERATION_TIME, this.customerGenerator, this.customerCount, this.cashes));
             Thread.sleep(LONG_OPERATION_TIME / 4);
 
             for (Cash cash : cashes) {
@@ -48,16 +50,17 @@ public class StoreEmulator {
         System.out.println(this.getInfo(INITIAL_STATE));
 
         IntStream.range(1, this.stepCount + 1).forEach(stepNumber -> {
+
             System.out.println(getStepLine(stepNumber));
 
             Optional<Customer> nextCustomer = generateNextCustomer();
             nextCustomer.ifPresent(customer -> {
                 Cash cash = customer.selectCash(this.cashes);
-                cash.addToQueue(customer);
+//                cash.addToQueue(customer);
                 System.out.println(this.getInfo(NEW_CUSTOMER));
             });
 
-            this.cashes.forEach(Cash::serveQueue);
+//            this.cashes.forEach(Cash::serveQueue);
             System.out.println(this.getInfo(QUEUES_SERVED));
 
             nextCustomer.ifPresent(Customer::dropJustCameInFlag);
@@ -113,18 +116,39 @@ class CashThread extends Thread {
 
 class NewCustomerThread extends Thread {
     private final int longOperationTime;
+    private final CustomerGenerator customerGenerator;
+    private int customerCount;
+    private final List<Cash> cashes;
 
-    NewCustomerThread(int longOperationTime) {
+    NewCustomerThread(int longOperationTime,
+                      CustomerGenerator customerGenerator,
+                      int customerCount,
+                      List<Cash> cashes) {
         this.longOperationTime = longOperationTime;
+        this.customerGenerator = customerGenerator;
+        this.customerCount = customerCount;
+        this.cashes = cashes;
     }
 
     @Override
     public void run() {
         try {
             int stepNumber = 0;
+            Customer customer = null;
+
             while (true) {
                 stepNumber++;
-                System.out.println(getStepLine(stepNumber));
+                dropJustCameInFlagForPrevCustomer(customer);
+                if (this.customerCount > 0) {
+                    this.customerCount--;
+                    customer = generateNextCustomer();
+                    Cash cash = customer.selectCash(this.cashes);
+                    cash.addToQueue(customer);
+                    System.out.println(getDetailedStepLite(stepNumber, customer, cash, this.customerCount));
+                } else {
+                    customer = null;
+                    System.out.println(getStepLine(stepNumber));
+                }
                 sleep(longOperationTime);
             }
         } catch (InterruptedException e) {
@@ -132,8 +156,23 @@ class NewCustomerThread extends Thread {
         }
     }
 
+    private Customer generateNextCustomer() {
+        return this.customerGenerator.getCustomer(true);
+    }
+
+    private void dropJustCameInFlagForPrevCustomer(Customer customer) {
+        if (customer != null) {
+            customer.dropJustCameInFlag();
+        }
+    }
+
     private String getStepLine(int stepNumber) {
-        return String.format(">> Step %d.......................................................",
+        return String.format(">> Step %d...........................................................................",
                 stepNumber);
+    }
+
+    private String getDetailedStepLite(int stepNumber, Customer customer, Cash cash, int customerCount) {
+        return String.format(">> Step %d %s to Cash%d (left=%d)....................................................",
+                stepNumber, customer.getInfo(), cash.getCashNumber(), customerCount);
     }
 }

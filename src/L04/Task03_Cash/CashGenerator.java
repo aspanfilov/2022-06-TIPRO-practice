@@ -3,12 +3,12 @@ package L04.Task03_Cash;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.stream.IntStream;
 
 public class CashGenerator {
 
     private final Random random;
     private final CustomerGenerator customerGenerator;
+    private int currentCashNumber = 0;
 
     public CashGenerator(CustomerGenerator customerGenerator) {
         this.random = new Random();
@@ -26,11 +26,11 @@ public class CashGenerator {
 
     private Cash getCash(int maxCashSpeed, int cashQueueLimit, int maxDefaultQueueSize) {
         int cashSpeed = getRandom(maxCashSpeed);
-        Queue<Customer> queue = getDefaultQueue(cashQueueLimit, maxDefaultQueueSize);
-        return new Cash(cashSpeed, queue);
+        BlockingQueue<Customer> queue = getDefaultQueue(cashQueueLimit, maxDefaultQueueSize);
+        return new Cash(getCurrentCashNumber(), cashSpeed, queue);
     }
 
-    private Queue<Customer> getDefaultQueue(int cashQueueLimit, int maxDefaultQueueSize) {
+    private BlockingQueue<Customer> getDefaultQueue(int cashQueueLimit, int maxDefaultQueueSize) {
         BlockingQueue<Customer> defaultQueue = new ArrayBlockingQueue<>(cashQueueLimit);
         if (maxDefaultQueueSize > 0) {
             int defaultQueueSize = getRandom(maxDefaultQueueSize);
@@ -45,6 +45,9 @@ public class CashGenerator {
         return this.random.nextInt(maxValue) + 1;
     }
 
-
+    private int getCurrentCashNumber() {
+        this.currentCashNumber++;
+        return this.currentCashNumber;
+    }
 
 }
